@@ -7,8 +7,6 @@ from base import BasePage
 import time
 
 
-#define get_data function
-
 class LoginPage(BasePage):
 
 

@@ -11,7 +11,6 @@ sys.path += ['../maincontrol', '../common']
 from main_control_object import MainControl
 from backend import BackendCall, get_data
 
-
 dir_data = '/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/login/LoginData.xls'
 
 @ddt

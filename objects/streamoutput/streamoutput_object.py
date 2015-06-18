@@ -10,7 +10,7 @@ sys.path.append('/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects')
 from base import BasePage
 from selenium.webdriver.common.action_chains import ActionChains
 
-
+#this is a comment
 class StreamOutput(BasePage):
 
 	def goStreamOutputButton(self):

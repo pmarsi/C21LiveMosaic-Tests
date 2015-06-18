@@ -16,7 +16,7 @@ streamoutputtests = unittest.TestLoader().loadTestsFromTestCase(TestStreamOutput
 smoke_tests = unittest.TestSuite([logintests, maincontroltests, streamoutputtests])
 
 # open the report file
-outfile = open("/Users/pedromartinsilva/Desktop/objects/mosaictests.html", "w")
+outfile = open("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/mosaictests.html", "w")
 
 # configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(
