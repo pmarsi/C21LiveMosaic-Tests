@@ -8,10 +8,9 @@ import time
 from selenium import webdriver
 sys.path += ['../login', '../maincontrol', '../common']
 from login_object import LoginPage
-from asset_library_object import StreamOutput
+from asset_library_object import AssetLibrary
 from main_control_object import MainControl
 from backend import BackendCall, get_data
-
 
 
 @ddt
@@ -24,10 +23,8 @@ class TestAssetLibrary(unittest.TestCase):
 		cls.browser.implicitly_wait(30)
 		cls.homepage = LoginPage(cls.browser)
 		cls.homepage.navigate()
-		cls.homepage2 =StreamOutput(cls.browser)
+		cls.homepage2 =AssetLibrary(cls.browser)
 		cls.homepage2.navigate()
-		cls.homepage3 = MainControl(cls.browser)
-		cls.homepage3.navigate()
 
 	@data(*get_data("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/login/LoginData.xls", 0))
 	@unpack
@@ -37,5 +34,15 @@ class TestAssetLibrary(unittest.TestCase):
 		self.homepage2.goAssetLibrary()
 
 	def test_01_headerTitle(self):
-		self.assertEqual(self.homepage2.getHeaderTitle(), "Asset library", "Title is different")
+		
+		self.assertEqual(self.homepage2.getHeaderTitle(), "Asset library", "Asset library "+"!= "+self.homepage2.getHeaderTitle())
 		print "\n Header title: ", self.homepage2.getHeaderTitle()
+
+	
+
+	@classmethod
+	def tearDownClass(cls):
+		cls.browser.close()
+
+if __name__ == "__main__":
+	unittest.main(verbosity=2)
