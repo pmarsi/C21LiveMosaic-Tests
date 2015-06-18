@@ -34,11 +34,16 @@ class TestAssetLibrary(unittest.TestCase):
 		self.homepage2.goAssetLibrary()
 
 	def test_01_headerTitle(self):
-		
 		self.assertEqual(self.homepage2.getHeaderTitle(), "Asset library", "Asset library "+"!= "+self.homepage2.getHeaderTitle())
 		print "\n Header title: ", self.homepage2.getHeaderTitle()
 
-	
+	def test_02_checkNavigatorTabs(self):
+		list_expected = ['Streams', 'Clips', 'Images']
+		self.assertListEqual(list_expected, self.homepage2.getNavigatorTabsList())
+
+	def test_03_goToAddStream(self):
+		self.homepage2.getNavigatorTabs()[0].click()
+
 
 	@classmethod
 	def tearDownClass(cls):

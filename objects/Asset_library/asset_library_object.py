@@ -17,3 +17,18 @@ class AssetLibrary(BasePage):
 		WebDriverWait(self.driver, 10).until(expected_conditions.presence_of_element_located((By.ID,"menuNavigator")))
 		return self.driver.find_element_by_id('headerTitle').text
 
+	def getNavigatorTabs(self):
+		return self.driver.find_elements_by_xpath('//*[@id="menuNavigator"]/li')
+
+	def getNavigatorTabsList(self):
+		list_tabs = []
+
+		tabs = self.getNavigatorTabs()
+
+		for i in range(len(tabs)):
+			list_tabs.append(tabs[i].text)
+
+		return list_tabs
+
+	
+
