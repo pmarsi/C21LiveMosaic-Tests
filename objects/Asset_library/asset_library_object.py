@@ -5,10 +5,13 @@ import time
 from base import BasePage
 
 
-class StreamOutputObject(BasePage):
+class AssetLibrary(BasePage):
 
 	def goAssetLibrary(self):
+		#go asset library menu
+		return self.driver.find_element_by_xpath('//*[@id="btnConfiguration"]/a').click()
 
-		#self.driver.find_element_by_xpath('//*[@id="btnConfiguration"]/a').click()
+	def getHeaderTitle(self):
 
+		return self.driver.find_element_by_id('headerTitle').text
 
