@@ -30,5 +30,8 @@ class AssetLibrary(BasePage):
 
 		return list_tabs
 
+	def goToAddStream(self, item):
+		return self.getNavigatorTabs()[int(item)].click()
+
 	
 

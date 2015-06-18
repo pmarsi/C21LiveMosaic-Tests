@@ -20,7 +20,7 @@ class TestAssetLibrary(unittest.TestCase):
 	def setUpClass(cls):
 		cls.browser = webdriver.Chrome()
 		cls.browser.maximize_window()
-		cls.browser.implicitly_wait(30)
+		cls.browser.implicitly_wait(60)
 		cls.homepage = LoginPage(cls.browser)
 		cls.homepage.navigate()
 		cls.homepage2 =AssetLibrary(cls.browser)
@@ -34,15 +34,18 @@ class TestAssetLibrary(unittest.TestCase):
 		self.homepage2.goAssetLibrary()
 
 	def test_01_headerTitle(self):
+		time.sleep(3)
 		self.assertEqual(self.homepage2.getHeaderTitle(), "Asset library", "Asset library "+"!= "+self.homepage2.getHeaderTitle())
 		print "\n Header title: ", self.homepage2.getHeaderTitle()
 
 	def test_02_checkNavigatorTabs(self):
+		time.sleep(4)
 		list_expected = ['Streams', 'Clips', 'Images']
 		self.assertListEqual(list_expected, self.homepage2.getNavigatorTabsList())
 
 	def test_03_goToAddStream(self):
-		self.homepage2.getNavigatorTabs()[0].click()
+		self.homepage2.goToAddStream(0)
+
 
 
 	@classmethod
