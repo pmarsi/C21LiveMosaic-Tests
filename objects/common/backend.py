@@ -9,6 +9,7 @@ import requests
 import cookielib
 from cookielib import CookieJar
 import os
+import xlrd
 
 
 def BackendCall(apifunction):
@@ -38,3 +39,16 @@ def BackendCall(apifunction):
     req2.add_header('Accept', '*/*')
     response = json.loads(urllib2.urlopen(req2).read())
     return response
+
+def get_data(file_name, sheet):
+    # create an empty list to store rows
+    rows = []
+    #open the specified Excel spreadsheet as workbook
+    book = xlrd.open_workbook(file_name)
+    #get the first sheet
+    sheet = book.sheet_by_index(sheet)
+    #iterate through the sheet and get data from rows in list
+    for i in range(1, sheet.nrows):
+        rows.append(list(sheet.row_values(i, 0, sheet.ncols)))
+
+    return rows

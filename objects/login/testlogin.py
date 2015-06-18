@@ -6,10 +6,13 @@ import os
 import sys
 import time
 from selenium import webdriver
-from login_object import LoginPage, get_data
-sys.path.append('../maincontrol')
+from login_object import LoginPage
+sys.path += ['../maincontrol', '../common']
 from main_control_object import MainControl
+from backend import BackendCall, get_data
 
+
+dir_data = '/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/login/LoginData.xls'
 
 @ddt
 class TestLogin(unittest.TestCase):
@@ -45,7 +48,7 @@ class TestLogin(unittest.TestCase):
 		print "\nText description: "+self.homepage.getDescriptionWelcome()
 
 
-	@data(*get_data("/Users/pedromartinsilva/Desktop/objects/login/LoginData.xls", 0))
+	@data(*get_data(dir_data, 0))
 	@unpack
 	def test_05_loginSuccess(self, username, password, message):
 		title = self.homepage.login(username, password, message)
@@ -53,7 +56,7 @@ class TestLogin(unittest.TestCase):
 		self.assertNotEqual(title, "Cires21", "Expected different title")
 		self.homepage2.getExitButton()
 
-	@data(*get_data("/Users/pedromartinsilva/Desktop/objects/login/LoginData.xls", 1))
+	@data(*get_data(dir_data, 1))
 	@unpack
 	def test_06_loginFail(self, username, password):
 		self.homepage.login(username, password)

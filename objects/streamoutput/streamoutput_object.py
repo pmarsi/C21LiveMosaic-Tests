@@ -2,20 +2,13 @@
 __author__ = 'pmartin'
 from selenium.webdriver.support.ui import Select
 import time
-from backend import BackendCall
+import sys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
+sys.path.append('/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects')
+from base import BasePage
 from selenium.webdriver.common.action_chains import ActionChains
-
-class BasePage(object):
-    url = 'http://ofimostest01.cires21.com'
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    def navigate(self):
-        self.driver.get(self.url)
 
 
 class StreamOutput(BasePage):
@@ -126,12 +119,3 @@ class StreamOutput(BasePage):
 			list_audio.append(audio_codec[i].text)
 
 		return list_audio
-
-
-	
-
-
-
-
-
-

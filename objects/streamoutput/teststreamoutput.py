@@ -7,10 +7,12 @@ import sys
 import time
 from selenium import webdriver
 sys.path += ['../login', '../maincontrol', '../common']
-from login_object import LoginPage, get_data
+from login_object import LoginPage
 from streamoutput_object import StreamOutput
 from main_control_object import MainControl
-from backend import BackendCall
+from backend import BackendCall, get_data
+
+dir_data = "/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/streamoutput/Address.xls"
 
 @ddt
 class TestStreamOutput(unittest.TestCase):
@@ -27,7 +29,7 @@ class TestStreamOutput(unittest.TestCase):
 		cls.homepage3 = MainControl(cls.browser)
 		cls.homepage3.navigate()
 
-	@data(*get_data("/Users/pedromartinsilva/Desktop/objects/login/LoginData.xls", 0))
+	@data(*get_data("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/login/LoginData.xls", 0))
 	@unpack
 	def test_00_loginSuccess(self, username, password, message):
 		self.homepage.login(username, password, message)
@@ -67,7 +69,7 @@ class TestStreamOutput(unittest.TestCase):
 		self.assertEqual(str(BackendCall('/config/streaming')['data']['protocol']), 
 					"UDP".lower(), "Expected UDP protocol in backend")
 
-	@data(*get_data("/Users/pedromartinsilva/Desktop/objects/streamoutput/Address.xls", 0))
+	@data(*get_data(dir_data, 0))
 	@unpack
 	def test_05_changeURL(self, address):
 		#clear data from input text
@@ -80,7 +82,7 @@ class TestStreamOutput(unittest.TestCase):
 		self.assertEqual(str(BackendCall('/config/streaming')['data']['address']), str(address), 
 					"IP address error")
 
-	@data(*get_data("/Users/pedromartinsilva/Desktop/objects/streamoutput/Address.xls", 1))
+	@data(*get_data(dir_data, 1))
 	@unpack
 	def test_06_changePort(self, port):
 		self.homepage2.getPort().clear()
@@ -93,7 +95,7 @@ class TestStreamOutput(unittest.TestCase):
 				"Port format Incorrect")
 
 
-	@data(*get_data('/Users/pedromartinsilva/Desktop/objects/streamoutput/Address.xls', 2))
+	@data(*get_data(dir_data, 2))
 	@unpack
 	def test_07_changeWidth(self, width):
 		#Cleaning of input text
@@ -137,7 +139,7 @@ class TestStreamOutput(unittest.TestCase):
 		print "\n Level selected: ", str(BackendCall('/config/streaming')['data']['h264options']['level'])
 		self.assertEqual(str(BackendCall('/config/streaming')['data']['h264options']['level']), '1.0', "Expected true")
 
-	@data(*get_data('/Users/pedromartinsilva/Desktop/objects/streamoutput/Address.xls', 3))
+	@data(*get_data(dir_data, 3))
 	@unpack
 	def test_12_checkVideoProfile(self, indice, profile):
 		list_expected = ['Baseline', 'Main', 'High']

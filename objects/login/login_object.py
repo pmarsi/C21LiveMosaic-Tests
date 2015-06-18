@@ -1,33 +1,13 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'pmartin'
 from selenium.webdriver.support.ui import Select
+import sys
+sys.path.append('/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects')
+from base import BasePage
 import time
-import xlrd
+
 
 #define get_data function
-
-def get_data(file_name, sheet):
-	# create an empty list to store rows
-	rows = []
-	#open the specified Excel spreadsheet as workbook
-	book = xlrd.open_workbook(file_name)
-	#get the first sheet
-	sheet = book.sheet_by_index(sheet)
-	#iterate through the sheet and get data from rows in list
-	for i in range(1, sheet.nrows):
-		rows.append(list(sheet.row_values(i, 0, sheet.ncols)))
-
-	return rows
-
-class BasePage(object):
-    url = 'http://ofimostest01.cires21.com'
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    def navigate(self):
-        self.driver.get(self.url)
-
 
 class LoginPage(BasePage):
 
