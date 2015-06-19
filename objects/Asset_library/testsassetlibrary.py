@@ -63,35 +63,35 @@ class TestAssetLibrary(unittest.TestCase):
 		#accept
 		self.homepage2.getAcceptButton()
 		#get stream name
-		time.sleep(5)
-		#check stream configuration in backend
-		print str(BackendCall('/livestreams')['data'])
-		self.assertEqual(str(BackendCall('/livestreams')['data'][1]['name']), 
-			str(name), "Different items saved in backend")
-		self.assertEqual(str(BackendCall('/livestreams')['data'][1]['url']), 
-			str(address), "Different items saved in backend")
-		
-		print self.homepage2.getStreamList()
+		stream_list_before = self.homepage2.getStreamList()
+		print "\nStream list: ", stream_list_before
+
+		for i in range(len(BackendCall('/livestreams')['data'])):
+			if BackendCall('/livestreams')['data'][i]['name'] == str(name) and BackendCall('/livestreams')['data'][i]['url'] == str(address):
+				print "\nNew stream saved in backend: ", str(BackendCall('/livestreams')['data'][i])
+				self.assertEqual(str(BackendCall('/livestreams')['data'][i]['name']), 
+					str(name), "Different items saved in backend")
+				self.assertEqual(str(BackendCall('/livestreams')['data'][i]['url']), 
+					str(address), "Different items saved in backend")
 
 		#check if stream is in the list
 		for i in range(len(self.homepage2.getStreamList())):
-			if self.homepage2.getStreamList()[i].split(' ')[0] == 'test-selenium':
-				self.assertEqual(self.homepage2.getStreamList()[i].split(' ')[0], 'test-selenium', "fail")
+			if self.homepage2.getStreamList()[i].split(' ')[0] == str(name):
+				print "\nNew stream saved in frontend: ", self.homepage2.getStreamList()[i].split(' ')
+				self.assertEqual(self.homepage2.getStreamList()[i].split(' ')[0], str(name), "fail")
 				#select stream
 				time.sleep(3)
 				self.homepage2.getTable()[i].click()
 				time.sleep(2)
 				#delete stream
+				print "\nDeleting..."
 				self.homepage2.deleteStream()
-				time.sleep(2)
+				time.sleep(3)
 				#alertify ok
 				self.homepage2.alertifyOK()
-
-
-
-
-		
-
+		#Check stream deleted in frontend
+		print "\nStream list: ", self.homepage2.getStreamList()
+		self.assertNotEqual(stream_list_before, self.homepage2.getStreamList(), "fail")
 
 	@classmethod
 	def tearDownClass(cls):
