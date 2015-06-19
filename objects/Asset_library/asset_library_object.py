@@ -30,8 +30,44 @@ class AssetLibrary(BasePage):
 
 		return list_tabs
 
-	def goToAddStream(self, item):
+	def getStreamItem(self, item):
 		return self.getNavigatorTabs()[int(item)].click()
 
+	def clickAddStreamButton(self):
+		return self.driver.find_element_by_xpath('//*[@id="btnAdd"]').click()
+
+	def getTitleAddStreamPage(self):
+		return self.driver.find_element_by_xpath('//*[@id="load-stream-title"]').text
+
+	def fillAddressURL(self, address):
+		return self.driver.find_element_by_xpath('//*[@id="sourceURLInput"]').send_keys(address)
+
+	def fillName(self, name):
+		return self.driver.find_element_by_xpath('//*[@id="nameInput"]').send_keys(name)
+
+	def getAspectRatioItems(self):
+		return self.driver.find_elements_by_xpath('//*[@id="radioAspectratio"]/label')
+
+	def getAcceptButton(self):
+		return self.driver.find_element_by_id('btnAccept').click()
+
+	def getStreamList(self):
+		list_streams = []
+		time.sleep(3)
+		streams = self.driver.find_elements_by_xpath('//*[@id="tbodyStreams"]/tr')
+
+		for i in range(len(streams)):
+			list_streams.append(streams[i].text)
+
+		return list_streams
+
+	def getTable(self):
+		return self.driver.find_elements_by_xpath('//*[@id="tbodyStreams"]/tr')
+
+	def deleteStream(self):
+		return self.driver.find_element_by_xpath('//*[@id="frameMosaicAsset"]/div[2]/div[1]/div[3]/button').click()
+
+	def alertifyOK(self):
+		return self.driver.find_element_by_id('alertify-ok').click()
 	
 
