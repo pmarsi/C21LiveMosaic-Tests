@@ -2,10 +2,16 @@
 __author__ = 'pmartin'
 from selenium.webdriver.support.ui import Select
 import time
+from ddt import ddt, data, unpack
+import xlrd
 from base import BasePage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
+import sys
+sys.path += ['../login', '../maincontrol', '../common']
+from backend import get_data
+
 
 class AssetLibrary(BasePage):
 
@@ -61,6 +67,22 @@ class AssetLibrary(BasePage):
 
 		return list_streams
 
+	@data(*get_data("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/Asset_library/AssetData.xls", 0))
+	@unpack
+	def createNewStream(self, address, name, sheet):
+		#get len stream list
+		self.getStreamItem(0)
+		#Add stream
+		self.clickAddStreamButton()
+		#fill Address URL
+		self.fillAddressURL(address)
+		#fill Name
+		self.fillName(name)
+		#select aspect ratio
+		self.getAspectRatioItems()[2].click()
+		#accept
+		self.getAcceptButton()
+
 	def getTable(self):
 		return self.driver.find_elements_by_xpath('//*[@id="tbodyStreams"]/tr')
 
@@ -69,5 +91,8 @@ class AssetLibrary(BasePage):
 
 	def alertifyOK(self):
 		return self.driver.find_element_by_id('alertify-ok').click()
+
+	def getEditStreamButton(self):
+		return self.driver.find_element_by_id('btnEdit').click()
 	
 

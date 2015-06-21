@@ -32,36 +32,25 @@ class TestAssetLibrary(unittest.TestCase):
 	def test_00_loginSuccess(self, username, password, message):
 		self.homepage.login(username, password, message)
 		#go to stream output menu
+		time.sleep(3)
 		self.homepage2.goAssetLibrary()
 
-	'''
+
 	def test_01_headerTitle(self):
 		time.sleep(3)
 		self.assertEqual(self.homepage2.getHeaderTitle(), "Asset library", 
 					"Asset library "+"!= "+self.homepage2.getHeaderTitle())
 		print "\n Header title: ", self.homepage2.getHeaderTitle()
 	
-	'''
 	def test_02_checkNavigatorTabs(self):
-		time.sleep(4)
 		list_expected = ['Streams', 'Clips', 'Images']
 		self.assertListEqual(list_expected, self.homepage2.getNavigatorTabsList())
 
 	@data(*get_data("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/Asset_library/AssetData.xls", 0))
 	@unpack
-	def test_03_createNewStream(self, address, name):
-		#get len stream list
-		self.homepage2.getStreamItem(0)
-		#Add stream
-		self.homepage2.clickAddStreamButton()
-		#fill Address URL
-		self.homepage2.fillAddressURL(address)
-		#fill Name
-		self.homepage2.fillName(name)
-		#select aspect ratio
-		self.homepage2.getAspectRatioItems()[2].click()
-		#accept
-		self.homepage2.getAcceptButton()
+	def test_03_checkNewStream(self, address, name, sheet):
+		
+		self.homepage2.createNewStream(address, name, sheet)
 		#get stream name
 		stream_list_before = self.homepage2.getStreamList()
 		print "\nStream list: ", stream_list_before
@@ -92,6 +81,16 @@ class TestAssetLibrary(unittest.TestCase):
 		#Check stream deleted in frontend
 		print "\nStream list: ", self.homepage2.getStreamList()
 		self.assertNotEqual(stream_list_before, self.homepage2.getStreamList(), "fail")
+
+		def test_04_editStream(self, name, stream, ):
+			#steps:
+			#create new stream
+			#select stream
+			#click edit button
+			#change data
+			#click button accept
+			#compare streams in frontend
+
 
 	@classmethod
 	def tearDownClass(cls):
