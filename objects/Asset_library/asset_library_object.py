@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import Select
 import time
 from ddt import ddt, data, unpack
 import xlrd
+import unittest
+from selenium import webdriver
 from base import BasePage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -45,11 +47,17 @@ class AssetLibrary(BasePage):
 	def getTitleAddStreamPage(self):
 		return self.driver.find_element_by_xpath('//*[@id="load-stream-title"]').text
 
-	def fillAddressURL(self, address):
-		return self.driver.find_element_by_xpath('//*[@id="sourceURLInput"]').send_keys(address)
+	def getAddressURLField(self):
+		return self.driver.find_element_by_xpath('//*[@id="sourceURLInput"]')
 
+	def fillAddressURL(self, address):
+		return self.getAddressURLField().send_keys(address)
+
+	def getNameStreamField(self):
+		return self.driver.find_element_by_xpath('//*[@id="nameInput"]')
+	
 	def fillName(self, name):
-		return self.driver.find_element_by_xpath('//*[@id="nameInput"]').send_keys(name)
+		return self.getNameStreamField().send_keys(name)
 
 	def getAspectRatioItems(self):
 		return self.driver.find_elements_by_xpath('//*[@id="radioAspectratio"]/label')
@@ -67,9 +75,7 @@ class AssetLibrary(BasePage):
 
 		return list_streams
 
-	@data(*get_data("/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/Asset_library/AssetData.xls", 0))
-	@unpack
-	def createNewStream(self, address, name, sheet):
+	def createNewStream(self, address, name):
 		#get len stream list
 		self.getStreamItem(0)
 		#Add stream
@@ -86,7 +92,7 @@ class AssetLibrary(BasePage):
 	def getTable(self):
 		return self.driver.find_elements_by_xpath('//*[@id="tbodyStreams"]/tr')
 
-	def deleteStream(self):
+	def deleteStreamButton(self):
 		return self.driver.find_element_by_xpath('//*[@id="frameMosaicAsset"]/div[2]/div[1]/div[3]/button').click()
 
 	def alertifyOK(self):
@@ -94,5 +100,35 @@ class AssetLibrary(BasePage):
 
 	def getEditStreamButton(self):
 		return self.driver.find_element_by_id('btnEdit').click()
-	
+
+	def deleteStream(self, name):
+		for i in range(len(self.getStreamList())):
+			if self.getStreamList()[i].split(' ')[0] == str(name):
+				print "\nNew stream saved in frontend: ", self.getStreamList()[i].split(' ')
+				#self.assertEqual(self.getStreamList()[i].split(' ')[0], str(name), "fail")
+				#select stream
+				time.sleep(3)
+				self.getTable()[i].click()
+				time.sleep(2)
+				#delete stream
+				print "\nDeleting..."
+				self.deleteStreamButton()
+				time.sleep(3)
+				#alertify ok
+				self.alertifyOK()
+
+	def getSAPButton(self):
+		return self.driver.find_element_by_id('btnSap').click()
+
+	def getListSAPChannels(self):
+		return self.driver.find_elements_by_xpath('//*[@id="tbodySap"]/tr')
+
+	def getSAPAcceptButton(self):
+		return self.driver.find_element_by_id('btnAccept')
+
+	def getAlertifySAP(self):
+		return self.driver.find_element_by_xpath('/html/body/section/div/article/p')
+
+	def getButtonAlertitySAP(self):
+		return self.driver.find_element_by_xpath('//*[@id="alertify-ok"]').click()
 
