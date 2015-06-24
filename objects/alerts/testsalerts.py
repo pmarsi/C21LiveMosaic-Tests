@@ -12,6 +12,8 @@ from alerts_object import Alerts
 from main_control_object import MainControl
 from backend import BackendCall, get_data
 
+test_data = '/Users/pedromartinsilva/Documents/C21LiveMosaic-Tests/objects/alerts/AlertsData.xls'
+
 @ddt
 class TestAlerts(unittest.TestCase):
 
@@ -54,24 +56,35 @@ class TestAlerts(unittest.TestCase):
 		print "\nTime tolerance: ", str(BackendCall('/config/alerts')['data']['stream']['time'])
 
 
-	def test_05_checkToleranceValue(self):
+	def test_05_checkAlertTolerance(self):
 		#select an option using select_by_value+
 		self.homepage2.getToleranceButton()
 		self.homepage2.getToleranceList()[3].click()
 		time.sleep(3)
 		self.assertEqual(str(BackendCall('/config/alerts')['data']['stream']['time']), '20')
 
-	def test_06_checkAlerts(self):
+	def test_06_checkAlertType(self):
+		print "\nInit alerts status: ", str(BackendCall('/config/alerts')['data']['stream'])
 		for i in range(len(self.homepage2.getCheckAlerts())):
-			print i
+
 			self.homepage2.getCheckAlerts()[i].click()
 			time.sleep(3)
-			print str(BackendCall('/config/alerts')['data']['stream'])
-		
+		print "\nAlerts after selects : ", str(BackendCall('/config/alerts')['data']['stream'])
+			
+	@data(*get_data(test_data, 0))
+	@unpack
+	def test_07_fillSender(self, sender, to, ws, trap):
+		time.sleep(3)
+		for i in range(len(self.homepage2.getEmailWebSnmp())):
+			#FALTA SABER COMO PUEDO USAR CADA ARGUMENTO POR CADA CICLO DEL BUCLE EN SEND_KEYS()
+			self.homepage2.getEmailWebSnmp()[i].clear()
+			self.homepage2.getEmailWebSnmp()[i].send_keys()
+			self.homepage2.clickFormGroup()
 
-
-
-
+		self.assertEqual(str(BackendCall('/config/alerts')['data']['from']), str(sender))
+		self.assertEqual(str(BackendCall('/config/alerts')['data']['to']), str(to))
+		self.assertEqual(str(BackendCall('/config/alerts')['data']['webservice']), str(sender))
+		self.assertEqual(str(BackendCall('/config/alerts')['data']['trapreceivers']), str(sender))
 
 	@classmethod
 	def tearDownClass(cls):

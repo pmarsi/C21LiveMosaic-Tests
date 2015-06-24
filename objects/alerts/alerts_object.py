@@ -53,3 +53,10 @@ class Alerts(BasePage):
 
 	def getCheckAlerts(self):
 		return self.driver.find_elements_by_xpath('//*[@id="tbodyAlerts"]/tr[1]/td')
+
+	def getEmailWebSnmp(self):
+		return self.driver.find_elements_by_xpath('//*[@id="frameMosaicAlerts"]/div[2]/div[1]/form/div/div/input')
+
+	def clickFormGroup(self):
+		return self.driver.find_element_by_xpath('//*[@id="frameMosaicAlerts"]/div[2]/div[1]/form/div[3]').click()
+
